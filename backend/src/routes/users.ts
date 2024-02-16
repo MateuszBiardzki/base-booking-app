@@ -44,11 +44,11 @@ async (req: Request, res: Response) => {
         });
 
         // Send a success response
-        return res.status(201).json({ message: "User registered successfully" });
+        return res.status(200).send({ message: "User registered OK" });
     } catch (error) {
         // Handle errors
         console.error(error);
-        return res.status(500).json({ message: "Something went wrong" });
+        return res.status(500).send({ message: "Something went wrong" });
     }
 });
 
