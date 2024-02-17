@@ -4,6 +4,7 @@ import { check, validationResult } from "express-validator";
 import User from "../models/user"; // Assuming this represents the user model
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import verifyToken from "../middleware/auth";
 
 // Create an instance of the Express router
 const router = express.Router();
@@ -61,6 +62,18 @@ router.post("/login", [
         return res.status(500).json({ message: "Something went wrong" });
     }
 });
+
+router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
+    res.status(200).send({userId: req.userId})
+});
+
+router.post("/logout", (req: Request, res: Response)=>{
+    res.cookie("auth_token", "", {
+        expires: new Date(0)
+    });
+    res.send();
+});
+
 
 // Export the router for use in other parts of the application
 export default router;

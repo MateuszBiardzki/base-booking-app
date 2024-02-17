@@ -1,24 +1,32 @@
-import express, { Request, Response} from 'express';
-import cors from 'cors';
-import "dotenv/config";
-import mongoose from 'mongoose';
-import userRoutes from "./routes/users"
-import authRoutes from "./routes/auth"
+// Import required modules and packages
+import express, { Request, Response } from 'express'; // Express framework for Node.js
+import cors from 'cors'; // Cross-Origin Resource Sharing middleware
+import "dotenv/config"; // Load environment variables from a .env file
+import mongoose from 'mongoose'; // MongoDB object modeling tool
+import userRoutes from "./routes/users"; // Import user routes
+import authRoutes from "./routes/auth"; // Import authentication routes
+import cookieParser from "cookie-parser";
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING as string)
+// Connect to MongoDB using the connection string from environment variables
+mongoose.connect(process.env.MONGO_CONNECTION_STRING as string);
 
+// Create an Express application
 const app = express();
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use(cors())
+app.use(cookieParser());
 
-//app.get("/api/test", async (req: Request, res: Response)=> {
-  //  res.json({ message: "hello from express endpoint!" });
-//});
+// Middleware setup
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(cors({ // Enable CORS with options
+  origin: process.env.FRONTEND_URL, // Allow requests from the specified frontend URL
+  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
+}));
 
-app.use("/api/auth", authRoutes)
-app.use("/api/users", userRoutes)
+// Define routes
+app.use("/api/auth", authRoutes); // Authentication routes
+app.use("/api/users", userRoutes); // User routes
 
-app.listen(7000, ()=> {
-    console.log("Server runniong on localhost:7000")
-})
+// Start the Express server
+app.listen(7000, () => {
+    console.log("Server running on localhost:7000");
+});
