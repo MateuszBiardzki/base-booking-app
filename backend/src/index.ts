@@ -6,9 +6,13 @@ import mongoose from 'mongoose'; // MongoDB object modeling tool
 import userRoutes from "./routes/users"; // Import user routes
 import authRoutes from "./routes/auth"; // Import authentication routes
 import cookieParser from "cookie-parser";
+import path from 'path';
 
 // Connect to MongoDB using the connection string from environment variables
-mongoose.connect(process.env.MONGO_CONNECTION_STRING as string);
+mongoose
+  .connect(process.env.MONGODB_CONNECTION_STRING as string)
+ // .then(() => console.log("Connected to database:", process.env.MONGODB_CONNECTION_STRING))
+ // .catch((error) => console.error("Error connecting to database:", error));
 
 // Create an Express application
 const app = express();
@@ -23,6 +27,7 @@ app.use(cors({ // Enable CORS with options
 }));
 
 // Define routes
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/auth", authRoutes); // Authentication routes
 app.use("/api/users", userRoutes); // User routes
 
