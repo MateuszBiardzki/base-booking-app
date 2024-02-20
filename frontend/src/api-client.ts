@@ -2,7 +2,7 @@ import { RegisterFormData } from "./pages/Register"; // Import the RegisterFormD
 import { SignInFormData } from "./pages/SignIn";
 
 // Retrieve the API base URL from environment variables using Vite's import.meta.env
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // Define an asynchronous function named register that takes formData of type RegisterFormData as input
 export const register = async (formData: RegisterFormData) => {
