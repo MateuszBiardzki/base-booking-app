@@ -7,6 +7,14 @@ import userRoutes from "./routes/users"; // Import user routes
 import authRoutes from "./routes/auth"; // Import authentication routes
 import cookieParser from "cookie-parser";
 import path from 'path';
+import { v2 as cloudinary} from 'cloudinary';
+import myHotelRoutes from "./routes/my-hotels";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Connect to MongoDB using the connection string from environment variables
 mongoose
@@ -30,6 +38,7 @@ app.use(cors({ // Enable CORS with options
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/auth", authRoutes); // Authentication routes
 app.use("/api/users", userRoutes); // User routes
+app.use("/api/my-hotels", myHotelRoutes) // adds hotels
 
 // Start the Express server
 app.listen(7000, () => {
