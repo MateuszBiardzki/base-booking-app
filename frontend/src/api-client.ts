@@ -6,14 +6,13 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // Define an asynchronous function named register that takes formData of type RegisterFormData as input
 export const register = async (formData: RegisterFormData) => {
-  // Send a POST request to the API endpoint for user registration
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
-    method: 'POST', // Specify the HTTP method as POST
+    method: "POST",
     credentials: "include",
     headers: {
-      "Content-Type": "application/json" // Set the Content-Type header to application/json
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(formData), // Convert the formData object to JSON string and include it in the request body
+    body: JSON.stringify(formData),
   });
 
   // Parse the response body as JSON
@@ -62,4 +61,18 @@ export const signOut = async ()=>{
   if (!response.ok) {
     throw new Error("Error during sign out");
   }
+};
+
+export const addMyHotel = async (hotelFormData: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: hotelFormData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to add hotel");
+  }
+
+  return response.json();
 };
